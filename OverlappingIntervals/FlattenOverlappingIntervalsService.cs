@@ -36,10 +36,10 @@ namespace OverlappingIntervals
                 flattenedIntervals.Add(GetSumInterval(intervalsToSum));
             }
 
-            if (flattenedIntervals.HasOverlappingIntervals())
-                FlattenOverlappingIntervals(flattenedIntervals);
+            if (!flattenedIntervals.HasOverlappingIntervals())
+                return flattenedIntervals;
 
-            return flattenedIntervals;
+            return FlattenOverlappingIntervals(flattenedIntervals);
         }
 
         private Interval GetSumInterval(List<Interval> intervalsToSum) 
