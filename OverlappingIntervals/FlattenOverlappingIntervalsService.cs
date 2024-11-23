@@ -8,9 +8,18 @@ namespace OverlappingIntervals
 
         public List<Interval> FlattenOverlappingIntervals(List<Interval> intervals)
         {
-            List<Interval> intervalsToCheck = 
-                intervals.OrderBy(i => i.Start).ToList();
+            List<Interval> flattenedIntervals = GetFlattenedIntervals(intervals);
+
+            if (!flattenedIntervals.HasOverlappingIntervals())
+                return flattenedIntervals;
+
+            return FlattenOverlappingIntervals(flattenedIntervals);
+        }
+
+        private List<Interval> GetFlattenedIntervals(List<Interval> intervals)
+        {
             List<Interval> flattenedIntervals = new List<Interval>();
+            List<Interval> intervalsToCheck = intervals.OrderBy(i => i.Start).ToList(); 
 
             while (intervalsToCheck.Any())
             {
@@ -25,21 +34,14 @@ namespace OverlappingIntervals
 
                 List<Interval> intervalsToSum = 
                     intervalsToCheck.GetIntervalsOverlappingInterval(currentInterval);
-
-                foreach (Interval interval in intervalsToSum)
-                {
-                    intervalsToCheck.Remove(interval);
-                }
-
+                intervalsToCheck.RemoveAll(i => intervalsToSum.Contains(i));
                 intervalsToSum.Add(currentInterval);
 
-                flattenedIntervals.Add(GetSumInterval(intervalsToSum));
+                Interval sumInterval = GetSumInterval(intervalsToSum);
+                flattenedIntervals.Add(sumInterval);
             }
 
-            if (!flattenedIntervals.HasOverlappingIntervals())
-                return flattenedIntervals;
-
-            return FlattenOverlappingIntervals(flattenedIntervals);
+            return flattenedIntervals;
         }
 
         private Interval GetSumInterval(List<Interval> intervalsToSum) 
