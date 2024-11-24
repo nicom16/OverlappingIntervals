@@ -35,9 +35,7 @@ namespace OverlappingIntervals
 
         public static List<Interval> GetIntervalsOverlappingInterval(this List<Interval> intervals, Interval interval)
         {
-            return intervals 
-                .Where(i => i != interval && IntervalHelpers.IntervalsOverlap(interval, i))
-                .ToList();
+            return intervals.Where(i => i != interval && IntervalsOverlap(interval, i)).ToList();
         }
 
         public static bool HasIntervalsOverlappingInterval(this List<Interval> intervals, Interval interval)

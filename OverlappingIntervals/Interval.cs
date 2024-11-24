@@ -1,6 +1,6 @@
 ﻿namespace OverlappingIntervals
 {
-    public record Interval
+    public class Interval
     {
         public DateTime Start;
         public DateTime End;
